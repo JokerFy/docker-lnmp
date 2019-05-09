@@ -5,20 +5,21 @@ services:
     privileged: true
     ports:
       - "9000:9000"
-    links:
-      - mysql-db:mysql-db
-      - redis-db:redis-db
+      - "9001:9001"
+      - "9002:9012"
+      - "9003:9013"
+      - "9010:9010"
+      - "9011:9011"
+      - "9012:9012"
+      - "9013:9013"
     volumes:
       - ../app:/data/www:rw
-      - ./php/php.ini:/usr/local/etc/php/php.ini:ro # 当前php配置文件；可以拷贝修改php-dev.ini为想要的配置
+      - ./php/php.ini:/usr/local/etc/php/php.ini:ro
       - ./php/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
       - ../logs/php-fpm:/var/log/php-fpm:rw
     restart: always
     command: php-fpm
-    environment:
-      - IS_DOCKER=true
-      - ENV=dev
-
+    
   nginx:
     build: ./nginx
     privileged: true
@@ -50,9 +51,9 @@ services:
         - ./mysql/conf.d:/etc/mysql/conf.d:ro
       environment:
         MYSQL_ROOT_PASSWORD: 123456
-        MYSQL_DATABASE: zphaldb
-        MYSQL_USER: zphal
-        MYSQL_PASSWORD: zphal123
+        MYSQL_DATABASE: finley
+        MYSQL_USER: finley
+        MYSQL_PASSWORD: 123123
       restart: always
       command: "--character-set-server=utf8"
 
@@ -63,3 +64,4 @@ services:
       volumes:
         - ../data/redis:/data
       restart: always
+
